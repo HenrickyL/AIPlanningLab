@@ -1,2 +1,12 @@
 <Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AIPlanningLab.Application/AIPlanningLab.Application.csproj" />
+    <Project Path="src/AIPlanningLab.Cli/AIPlanningLab.Cli.csproj" />
+    <Project Path="src/AIPlanningLab.Domain/AIPlanningLab.Domain.csproj" />
+    <Project Path="src/AIPlanningLab.Implementations/AIPlanningLab.Implementations.csproj" />
+    <Project Path="src/AIPlanningLab.Infrastructure/AIPlanningLab.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AIPlanningLab.Tests/AIPlanningLab.Tests.csproj" />
+  </Folder>
 </Solution>
