@@ -1,5 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <ProjectReference Include="..\AIPlanningLab.Application\AIPlanningLab.Application.csproj" />
+    <ProjectReference Include="..\AIPlanningLab.Infrastructure\AIPlanningLab.Infrastructure.csproj" />
+    <ProjectReference Include="..\AIPlanningLab.Implementations\AIPlanningLab.Implementations.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
