@@ -7,12 +7,6 @@ namespace AIPlanningLab.Domain.Models;
 public interface IState
 {
     /// <summary>
-    /// Literais presentes na representação.
-    /// Opcional para estados compactos.
-    /// </summary>
-    IReadOnlyCollection<ILiteral> Literals { get; }
-
-    /// <summary>
     /// Verifica se satisfaz condição.
     /// this ⊨ other
     /// </summary>
@@ -50,7 +44,7 @@ public interface IState
     /// <summary>
     /// Cria cópia independente.
     /// </summary>
-    IState Clone();
+    //IState Clone();
 }
 
 

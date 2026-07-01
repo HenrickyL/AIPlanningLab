@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using AIPlanningLab.Domain.Collections;
 namespace AIPlanningLab.Domain.Models;
 
 /// <summary>
@@ -6,7 +6,7 @@ namespace AIPlanningLab.Domain.Models;
 /// </summary>
 public interface IDomain
 {
-    IReadOnlySet<IProposition> Predicates { get; }
+    IPropositionRegistry Propositions { get; }
 
     IReadOnlyList<IAction> Actions { get; }
 }
