@@ -1,27 +1,31 @@
 ﻿using AIPlanningLab.Application.Planning;
 using AIPlanningLab.Application.Search;
-using AIPlanningLab.Application.Search.Methods;
 using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Services;
 using System.Diagnostics;
 
 namespace AIPlanningLab.Cli.Tests;
 
-internal class BFSPlanForwardTest
+internal class ExecutePlanTest
 {
-    public static void Execute(IPlanningProblem problem) {
-        Console.WriteLine("Executing BFS plan...");
+    public static void Execute(IPlanningProblem problem, ISearchAlgorithm search, string algName, bool debug = false) {
+        Console.WriteLine($"----------------------");
+        Console.WriteLine($"Executing {algName} plan...");
         var stopwatch = new Stopwatch();
         stopwatch.Start();
 
         IPlanningOperator planningOperator = new PlanningOperator();
-        ISearchAlgorithm search = new BreadthFirstSearch();
+        //ISearchAlgorithm search = new DepthFirstSearch();
         IPlanner planner = new ForwardPlanner(planningOperator, search);
         SearchResult result = planner.Solve(problem);
 
         stopwatch.Stop();
         Console.WriteLine($"Time: {stopwatch.ElapsedMilliseconds} ms");
-        PrintResult(result);
+        if (result.Success) { 
+            Console.WriteLine($"expanded Nodes: {result.ExpandedNodes}");
+            Console.WriteLine($"solutionSteps:   {result.Depth}");
+        }
+        if (debug) PrintResult(result);
     }
 
     private static void PrintResult(SearchResult result)

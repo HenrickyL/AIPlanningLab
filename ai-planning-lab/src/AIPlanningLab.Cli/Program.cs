@@ -1,4 +1,5 @@
-﻿using AIPlanningLab.Cli.Tests;
+﻿using AIPlanningLab.Application.Search.Methods;
+using AIPlanningLab.Cli.Tests;
 using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Implementations.Explicit.Parser;
 using AIPlanningLab.Infrastructure.Parser;
@@ -41,6 +42,7 @@ public class Program
         Console.WriteLine($"Estado inicial: {problem.InitialState}");
         Console.WriteLine($"Meta:           {problem.Goal}");
 
-        BFSPlanForwardTest.Execute(problem);
+        ExecutePlanTest.Execute(problem, new BreadthFirstSearch(), "BFS");
+        ExecutePlanTest.Execute(problem, new DepthFirstSearch(), "DFS");
     }
 }
