@@ -1,4 +1,4 @@
-﻿namespace AIPlanningLab.Domain.Collections;
+﻿namespace AIPlanningLab.Domain.Registry;
 
 /// <summary>
 /// Mapeia proposições para identificadores internos.

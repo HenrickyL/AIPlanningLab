@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-namespace AIPlanningLab.Domain.Models;
+﻿namespace AIPlanningLab.Domain.Models;
 
 /// <summary>
 /// Conjunto de fatos verdadeiros.

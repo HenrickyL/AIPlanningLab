@@ -1,4 +1,4 @@
-﻿using AIPlanningLab.Domain.Collections;
+﻿using AIPlanningLab.Domain.Registry;
 namespace AIPlanningLab.Domain.Models;
 
 /// <summary>
