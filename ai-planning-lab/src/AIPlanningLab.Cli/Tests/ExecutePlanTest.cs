@@ -8,15 +8,20 @@ namespace AIPlanningLab.Cli.Tests;
 
 internal class ExecutePlanTest
 {
-    public static void Execute(IPlanningProblem problem, ISearchAlgorithm search, string algName, bool debug = false) {
+    public static void Execute(
+        IPlanningProblem problem, 
+        string algName,
+        IPlanner planner,
+        string plannerName,
+        bool debug = false) {
         Console.WriteLine($"----------------------");
-        Console.WriteLine($"Executing {algName} plan...");
+        Console.WriteLine($"Executing {plannerName} plan by search {algName}...");
         var stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        IPlanningOperator planningOperator = new PlanningOperator();
+        
         //ISearchAlgorithm search = new DepthFirstSearch();
-        IPlanner planner = new ForwardPlanner(planningOperator, search);
+        //IPlanner planner = new ForwardPlanner(planningOperator, search);
         SearchResult result = planner.Solve(problem);
 
         stopwatch.Stop();
