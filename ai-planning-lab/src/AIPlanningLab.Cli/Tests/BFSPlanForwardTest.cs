@@ -1,5 +1,6 @@
 ﻿using AIPlanningLab.Application.Planning;
 using AIPlanningLab.Application.Search;
+using AIPlanningLab.Application.Search.Methods;
 using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Services;
 using System.Diagnostics;

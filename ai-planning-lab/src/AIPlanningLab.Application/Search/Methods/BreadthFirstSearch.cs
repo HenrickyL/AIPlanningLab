@@ -1,6 +1,6 @@
 ﻿using AIPlanningLab.Domain.Models;
 
-namespace AIPlanningLab.Application.Search;
+namespace AIPlanningLab.Application.Search.Methods;
 /// <summary>
 /// Busca em largura genérica.
 /// </summary>
