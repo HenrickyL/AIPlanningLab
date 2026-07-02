@@ -1,5 +1,6 @@
 ﻿namespace AIPlanningLab.Domain.Models;
 
+/// TODO: USe in Registry
 public class Proposition : IProposition, IEquatable<Proposition>
 {
     public string Name { get; }

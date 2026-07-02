@@ -111,4 +111,19 @@ public sealed class ExplicitState : IState
         => other as ExplicitState
            ?? throw new ArgumentException(
                $"ExplicitState só opera com ExplicitState. Recebido: {other.GetType().Name}");
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not ExplicitState other) return false;
+        return _facts.IsSubsetOf(other._facts) && other._facts.IsSubsetOf(_facts);
+    }
+
+    public override int GetHashCode()
+    {
+        int hash = 17;
+        for (int i = 0; i < _registry.Count; i++)
+            if (_facts.Contains(i))
+                hash = hash * 31 + i;
+        return hash;
+    }
 }

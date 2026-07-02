@@ -44,6 +44,15 @@ public interface IState
     /// Cria cópia independente.
     /// </summary>
     //IState Clone();
+
+    //----
+
+    int GetHashCode();
+
+    bool Equals(object? obj);
+
+
+
 }
 
 

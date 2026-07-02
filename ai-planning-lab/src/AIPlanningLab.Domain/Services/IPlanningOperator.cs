@@ -8,9 +8,9 @@ namespace AIPlanningLab.Domain.Services;
 public interface IPlanningOperator
 {
     /// <summary>
-    /// Verifica aplicabilidade.
+    /// Verifica aplicabilidade da progressão.
     /// </summary>
-    bool CanApply(
+    bool CanProgress(
         IState state,
         IAction action
     );
@@ -20,6 +20,14 @@ public interface IPlanningOperator
     /// </summary>
     IState Progress(
         IState state,
+        IAction action
+    );
+
+    /// <summary>
+    /// Verifica aplicabilidade da regressão.
+    /// </summary>
+    bool CanRegress(
+        IState target,
         IAction action
     );
 

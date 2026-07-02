@@ -1,7 +1,11 @@
-﻿using AIPlanningLab.Domain.Models;
+﻿using AIPlanningLab.Application.Planning;
+using AIPlanningLab.Application.Search;
+using AIPlanningLab.Application.Search.Methods;
+using AIPlanningLab.Cli.Tests;
+using AIPlanningLab.Domain.Models;
+using AIPlanningLab.Domain.Services;
 using AIPlanningLab.Implementations.Explicit.Parser;
 using AIPlanningLab.Infrastructure.Parser;
-using System;
 
 namespace AIPlanningLab.CLI;
 
@@ -9,13 +13,14 @@ public class Program
 {
     private static void Main(/*string[] args*/)
     {
-
         //string samplePath = args.Length > 0
         //    ? args[0]
         //    : Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
 
-        Console.WriteLine(AppContext.BaseDirectory);
+        string problemName = "block-word-1";
         string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
+        //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-02-GROUNDED.txt");
+
 
         if (!File.Exists(samplePath))
         {
@@ -26,7 +31,7 @@ public class Program
 
         IProblemParser parser = new ExplicitProblemParser();
         IPlanningProblem problem = parser.Parse(samplePath);
-
+        Console.WriteLine($"Problema carregado: {problemName}");
         Console.WriteLine($"Proposições registradas: {problem.Domain.Propositions.Count}");
         Console.WriteLine($"Ações carregadas:        {problem.Domain.Actions.Count}");
         Console.WriteLine();
@@ -39,9 +44,22 @@ public class Program
         Console.WriteLine($"Estado inicial: {problem.InitialState}");
         Console.WriteLine($"Meta:           {problem.Goal}");
 
-        // Sanity check rápido: o estado inicial já satisfaz a meta?
-        // (não deveria, senão o problema é trivial)
-        Console.WriteLine();
-        Console.WriteLine($"InitialState ⊨ Goal? {problem.InitialState.Satisfies(problem.Goal)}");
+        IPlanningOperator planningOperator = new PlanningOperator();
+        ISearchAlgorithm BFS = new BreadthFirstSearch();
+        ISearchAlgorithm DFS = new DepthFirstSearch();
+        
+
+
+        List<(string, string, IPlanner)> options = new() { 
+            ("BFS", "Forward", new ForwardPlanner(planningOperator, BFS)),
+            ("DFS", "Forward", new ForwardPlanner(planningOperator, DFS)),
+            ("BFS", "Backward", new BackwardPlanner(planningOperator, BFS)),
+            ("DFS", "Backward", new BackwardPlanner(planningOperator, DFS)),
+        };
+
+        foreach (var (algName, plannerName, planner) in options)
+        {
+            ExecutePlanTest.Execute(problem, algName, planner, plannerName);
+        }
     }
 }
