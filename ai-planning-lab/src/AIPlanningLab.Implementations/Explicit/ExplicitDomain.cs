@@ -1,20 +1,16 @@
-﻿using AIPlanningLab.Domain.Collections;
-using AIPlanningLab.Domain.Models;
+﻿using AIPlanningLab.Domain.Models;
+using AIPlanningLab.Domain.Registry;
 
 namespace AIPlanningLab.Implementations.Explicit;
 
 public class ExplicitDomain : IDomain
 {
     public IPropositionRegistry Propositions { get; }
-
     public IReadOnlyList<IAction> Actions { get; }
 
-    public ExplicitDomain(
-        IEnumerable<ExplicitAction> actions,
-        IPropositionRegistry registry)
+    public ExplicitDomain(IPropositionRegistry propositions, IReadOnlyList<IAction> actions)
     {
-        Actions =actions.ToList();
-
-        Propositions = registry;
+        Propositions = propositions;
+        Actions = actions;
     }
 }

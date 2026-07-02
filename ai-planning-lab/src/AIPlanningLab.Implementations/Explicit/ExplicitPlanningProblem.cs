@@ -2,24 +2,21 @@
 
 namespace AIPlanningLab.Implementations.Explicit;
 
-public class ExplicitProblem : IPlanningProblem
+public class ExplicitPlanningProblem : IPlanningProblem
 {
     public IDomain Domain { get; }
-
     public IState InitialState { get; }
-
     public IState Goal { get; }
-
     public IState Constraints { get; }
 
-    public ExplicitProblem(
-        ExplicitDomain domain,
-        ExplicitState initial,
-        ExplicitState goal,
-        ExplicitState constraints)
+    public ExplicitPlanningProblem(
+        IDomain domain,
+        IState initialState,
+        IState goal,
+        IState constraints)
     {
         Domain = domain;
-        InitialState = initial;
+        InitialState = initialState;
         Goal = goal;
         Constraints = constraints;
     }
