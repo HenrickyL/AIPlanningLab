@@ -41,6 +41,8 @@ dotnet add src/AIPlanningLab.Implementations reference src/AIPlanningLab.Domain
 
 dotnet add src/AIPlanningLab.Implementations reference src/AIPlanningLab.Application
 
+dotnet add src/AIPlanningLab.Implementations reference src/AIPlanningLab.Infrastructure
+
 dotnet add src/AIPlanningLab.Infrastructure reference src/AIPlanningLab.Domain
 
 dotnet add src/AIPlanningLab.Cli reference src/AIPlanningLab.Application

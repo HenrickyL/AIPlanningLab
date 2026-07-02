@@ -1,9 +1,6 @@
 ﻿namespace AIPlanningLab.Domain.Models;
-
-/// <summary>
-/// Fato atômico.
-/// </summary>
 public interface IProposition
 {
-    string Name { get; }
+    public string Name { get; }
+    public int Index { get; }
 }

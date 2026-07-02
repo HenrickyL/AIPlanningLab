@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AIPlanningLab.Domain\AIPlanningLab.Domain.csproj" />
     <ProjectReference Include="..\AIPlanningLab.Application\AIPlanningLab.Application.csproj" />
+    <ProjectReference Include="..\AIPlanningLab.Infrastructure\AIPlanningLab.Infrastructure.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

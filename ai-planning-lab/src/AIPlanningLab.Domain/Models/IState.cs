@@ -1,17 +1,10 @@
-﻿using System.Collections.Generic;
-namespace AIPlanningLab.Domain.Models;
+﻿namespace AIPlanningLab.Domain.Models;
 
 /// <summary>
 /// Conjunto de fatos verdadeiros.
 /// </summary>
 public interface IState
 {
-    /// <summary>
-    /// Literais presentes na representação.
-    /// Opcional para estados compactos.
-    /// </summary>
-    IReadOnlyCollection<ILiteral> Literals { get; }
-
     /// <summary>
     /// Verifica se satisfaz condição.
     /// this ⊨ other
@@ -50,7 +43,7 @@ public interface IState
     /// <summary>
     /// Cria cópia independente.
     /// </summary>
-    IState Clone();
+    //IState Clone();
 }
 
 
