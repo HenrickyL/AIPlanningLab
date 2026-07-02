@@ -1,7 +1,7 @@
-﻿using AIPlanningLab.Domain.Models;
+﻿using AIPlanningLab.Cli.Tests;
+using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Implementations.Explicit.Parser;
 using AIPlanningLab.Infrastructure.Parser;
-using System;
 
 namespace AIPlanningLab.CLI;
 
@@ -15,7 +15,9 @@ public class Program
         //    : Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
 
         Console.WriteLine(AppContext.BaseDirectory);
-        string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
+        //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
+        string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-02-GROUNDED.txt");
+
 
         if (!File.Exists(samplePath))
         {
@@ -39,9 +41,6 @@ public class Program
         Console.WriteLine($"Estado inicial: {problem.InitialState}");
         Console.WriteLine($"Meta:           {problem.Goal}");
 
-        // Sanity check rápido: o estado inicial já satisfaz a meta?
-        // (não deveria, senão o problema é trivial)
-        Console.WriteLine();
-        Console.WriteLine($"InitialState ⊨ Goal? {problem.InitialState.Satisfies(problem.Goal)}");
+        BFSPlanForwardTest.Execute(problem);
     }
 }
