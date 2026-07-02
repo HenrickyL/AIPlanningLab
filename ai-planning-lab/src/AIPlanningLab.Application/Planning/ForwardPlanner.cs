@@ -37,7 +37,7 @@ public sealed class ForwardPlanner : IPlanner
     {
         foreach (var action in _problem.Domain.Actions)
         {
-            if (!_operator.CanApply(node.State, action))
+            if (!_operator.CanProgress(node.State, action))
                 continue;
 
             var newState = _operator.Progress(node.State, action);
