@@ -5,43 +5,52 @@ using AIPlanningLab.Domain.Services;
 
 namespace AIPlanningLab.Application.Planning;
 
-/// <summary>
-/// Planejamento por progressão (forward search).
-/// </summary>
-public sealed class ForwardPlanner : IPlanner
+public class RegressionComputeProgressionGuided : IPlanner
 {
     private readonly IPlanningOperator _operator;
     private readonly ISearchAlgorithm _search;
-    private readonly IHeuristic? _heuristic;
+    private readonly IPrecomputedHeuristic? _heuristic;
 
-    private IPlanningProblem _problem;
+    private IPlanningProblem? _problem = null;
 
-    public ForwardPlanner(IPlanningOperator planningOperator, ISearchAlgorithm search, IHeuristic? heuristic = null)
+    public RegressionComputeProgressionGuided(
+        IPlanningOperator planningOperator, 
+        ISearchAlgorithm search,
+        IPrecomputedHeuristic? heuristic = null)
     {
         _operator = planningOperator;
         _search = search;
         _heuristic = heuristic;
-    }
 
+    }
     public SearchResult Solve(IPlanningProblem problem)
     {
         this._problem = problem;
-
+        _heuristic?.Precompute(_problem);
         var root = SearchNode.CreateRoot(problem.InitialState, Expand, IsGoal, Heuristic);
         return _search.Search(root);
     }
 
-    private int Heuristic(SearchNode node) {
-        return _heuristic?.Evaluate(node.State, _problem) ?? 0;
+    private int Heuristic(SearchNode node)
+    {
+        if (_heuristic == null || _problem == null)
+            throw new Exception("Invalid");
+
+        return _heuristic.Evaluate(node.State, _problem);
     }
 
     private bool IsGoal(SearchNode node)
     {
+        if (_problem == null)
+            throw new Exception("Invalid");
+
         return node.State.Satisfies(_problem.Goal);
     }
 
     private IEnumerable<SearchNode> Expand(SearchNode node)
     {
+        if (_problem == null)
+            throw new Exception("Invalid");
         foreach (var action in _problem.Domain.Actions)
         {
             if (!_operator.CanProgress(node.State, action))

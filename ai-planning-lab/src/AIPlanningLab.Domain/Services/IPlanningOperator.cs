@@ -48,6 +48,14 @@ public interface IPlanningOperator
     );
 
     /// <summary>
+    /// Verifica aplicabilidade da regressão relaxada.
+    /// </summary>
+    bool CanRelaxedRegress(
+        IState target,
+        IAction action
+    );
+
+    /// <summary>
     /// Regressão relaxada.
     /// </summary>
     IState RelaxedRegress(

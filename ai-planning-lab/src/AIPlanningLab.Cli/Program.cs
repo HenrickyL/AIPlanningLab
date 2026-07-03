@@ -1,10 +1,13 @@
 ﻿using AIPlanningLab.Application.Planning;
 using AIPlanningLab.Application.Search;
 using AIPlanningLab.Application.Search.Methods;
+using AIPlanningLab.Application.Search.Methods.Heuristic;
 using AIPlanningLab.Cli.Tests;
 using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Services;
 using AIPlanningLab.Implementations.Explicit.Parser;
+using AIPlanningLab.Infrastructure.Execution;
+using AIPlanningLab.Infrastructure.Metrics;
 using AIPlanningLab.Infrastructure.Parser;
 
 namespace AIPlanningLab.CLI;
@@ -17,9 +20,11 @@ public class Program
         //    ? args[0]
         //    : Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
 
-        string problemName = "block-word-1";
-        string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
-        //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-02-GROUNDED.txt");
+        string problemName = "block-word-3";
+        //string problemName = "rovers-5";
+
+        string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-3-GROUNDED.txt");
+        //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-05-GROUNDED.txt");
 
 
         if (!File.Exists(samplePath))
@@ -44,22 +49,61 @@ public class Program
         Console.WriteLine($"Estado inicial: {problem.InitialState}");
         Console.WriteLine($"Meta:           {problem.Goal}");
 
+        ITimeMetric timer = new StopwatchMetric();
+        IExecutionLimiter excLimiter = new TimeLimiter(timer, 1 * 60);
+
+        ITimeMetric timerForward = new StopwatchMetric();
+        IExecutionLimiter excLimiterForward = new TimeLimiter(timerForward, 2 * 60);
+
+        Action StarTime = () =>
+        {
+            timerForward.Start();
+        };
+        Func<bool> CheckLimit = () =>
+        {
+            bool response = excLimiterForward.ShouldStop();
+            if (response) {
+                Console.WriteLine(">TimeLimitExceded");
+                timerForward.Restart();
+            }
+            return response;
+        };
         IPlanningOperator planningOperator = new PlanningOperator();
         ISearchAlgorithm BFS = new BreadthFirstSearch();
         ISearchAlgorithm DFS = new DepthFirstSearch();
-        
+        ISearchAlgorithm UCS = new UniformCostSearch(StarTime,CheckLimit);
+        ISearchAlgorithm GBFS = new GreedyBestFirstSearch(StarTime, CheckLimit);
+        ISearchAlgorithm AStar = new AStarSearch(StarTime, CheckLimit);
 
 
         List<(string, string, IPlanner)> options = new() { 
             ("BFS", "Forward", new ForwardPlanner(planningOperator, BFS)),
-            ("DFS", "Forward", new ForwardPlanner(planningOperator, DFS)),
             ("BFS", "Backward", new BackwardPlanner(planningOperator, BFS)),
+
+            ("DFS", "Forward", new ForwardPlanner(planningOperator, DFS)),
             ("DFS", "Backward", new BackwardPlanner(planningOperator, DFS)),
+
+            ("UCS", "Forward", new ForwardPlanner(planningOperator, UCS)),
+            ("UCS", "Backward", new BackwardPlanner(planningOperator, UCS)),
         };
 
         foreach (var (algName, plannerName, planner) in options)
         {
             ExecutePlanTest.Execute(problem, algName, planner, plannerName);
         }
+
+        ExecuteHeuristicPlanTest.Execute(problem, AStar, "A*");
+        Reset();
+        ExecuteHeuristicPlanTest.Execute(problem, GBFS, "GBFS");
+        Reset();
+        ExecuteRegressHeuristProgressGuidedPlanTest.Execute(problem, AStar, "A*", timer, excLimiter);
+        Reset();
+        ExecuteRegressHeuristProgressGuidedPlanTest.Execute(problem, GBFS, "GBFS", timer, excLimiter);
+        Reset();
+    }
+
+    private static void Reset() {
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
     }
 }

@@ -25,7 +25,20 @@ public class BackwardPlanner : IPlanner
         this._problem = problem;
 
         var root = SearchNode.CreateRoot(problem.Goal, Expand, IsGoal);
-        return _search.Search(root);
+
+        SearchResult result = _search.Search(root);
+        if (result.Success)/// TODO: this operation may affect the time
+        {
+            result = new() 
+            {
+                Success = result.Success,
+                Cost = result.Cost,
+                Depth = result.Depth,
+                ExpandedNodes = result.ExpandedNodes,
+                Plan = result.Plan.Reverse().ToList()
+            };
+        }
+        return result;
     }
 
     private bool IsGoal(SearchNode node)

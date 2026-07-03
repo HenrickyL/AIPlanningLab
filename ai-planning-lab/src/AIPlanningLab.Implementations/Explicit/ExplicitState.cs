@@ -1,6 +1,7 @@
 ﻿using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Registry;
 using AIPlanningLab.Implementations.Collections;
+using Microsoft.Win32;
 using System.Text;
 
 namespace AIPlanningLab.Implementations.Explicit;
@@ -25,6 +26,9 @@ public sealed class ExplicitState : IState
 {
     private readonly IBitSet _facts;
     private readonly IPropositionRegistry _registry;
+
+    public BitSet Facts => (BitSet)_facts;
+    public PropositionRegistry Registry => (PropositionRegistry)_registry;
 
     public ExplicitState(IBitSet facts, IPropositionRegistry registry)
     {

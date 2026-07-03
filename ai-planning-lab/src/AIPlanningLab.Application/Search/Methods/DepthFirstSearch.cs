@@ -26,11 +26,12 @@ public sealed class DepthFirstSearch : ISearchAlgorithm
         frontier.Push(root);
         visited.Add(root.State);
 
+        SearchNode node;
         int expanded = 0;
 
         while (frontier.Count > 0)
         {
-            var node = frontier.Pop();
+            node = frontier.Pop();
             expanded++;
 
             foreach (var child in node.Expand())

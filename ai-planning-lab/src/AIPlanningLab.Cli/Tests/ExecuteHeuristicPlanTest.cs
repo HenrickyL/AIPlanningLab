@@ -1,27 +1,35 @@
-﻿using AIPlanningLab.Application.Planning;
+﻿using AIPlanningLab.Application.Heuristics;
+using AIPlanningLab.Application.Planning;
 using AIPlanningLab.Application.Search;
 using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Services;
+using AIPlanningLab.Implementations.Explicit.Heuristics;
 using System.Diagnostics;
 
 namespace AIPlanningLab.Cli.Tests;
 
-internal class ExecutePlanTest
+internal class ExecuteHeuristicPlanTest
 {
     public static void Execute(
-        IPlanningProblem problem, 
+        IPlanningProblem problem,
+        ISearchAlgorithm search,
         string algName,
-        IPlanner planner,
-        string plannerName,
-        bool debug = false) {
+        bool debug = false)
+    {
+        string plannerName = "Forward";
+        string heuristicName = "GoalCountHeuristic";
+
         Console.WriteLine($"----------------------");
         Console.WriteLine($"Executing {plannerName} plan by search {algName}...");
+        Console.WriteLine($"Heuristic: {heuristicName}");
+
         var stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        
-        //ISearchAlgorithm search = new DepthFirstSearch();
-        //IPlanner planner = new ForwardPlanner(planningOperator, search);
+        IPlanningOperator planningOperator = new PlanningOperator();
+        IHeuristic heuristic = new GoalCountHeuristic();
+        IPlanner planner = new ForwardPlanner(planningOperator, search, heuristic);
+
         SearchResult result = planner.Solve(problem);
 
         stopwatch.Stop();

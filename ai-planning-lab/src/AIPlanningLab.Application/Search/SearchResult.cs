@@ -11,6 +11,7 @@ public record SearchResult
     public IReadOnlyList<IAction>? Plan { get; init; }
     public int ExpandedNodes { get; init; }
     public int Depth { get; init; }
+    public int Cost { get; init; }
 
     public static SearchResult Failure(int expandedNodes) => new SearchResult()
     {
@@ -18,6 +19,7 @@ public record SearchResult
         Plan = null,
         ExpandedNodes = expandedNodes,
         Depth = 0,
+        Cost = 0,
     };
 } 
 
