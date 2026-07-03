@@ -1,12 +1,12 @@
 ﻿using AIPlanningLab.Application.Planning;
 using AIPlanningLab.Application.Search;
 using AIPlanningLab.Application.Search.Methods;
+using AIPlanningLab.Application.Search.Methods.Heuristic;
 using AIPlanningLab.Cli.Tests;
 using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Services;
 using AIPlanningLab.Implementations.Explicit.Parser;
 using AIPlanningLab.Infrastructure.Parser;
-using System.Numerics;
 
 namespace AIPlanningLab.CLI;
 
@@ -18,11 +18,11 @@ public class Program
         //    ? args[0]
         //    : Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
 
-        //string problemName = "block-word-2";
-        string problemName = "rovers-5";
+        //string problemName = "block-word-3";
+        string problemName = "rovers-2";
 
-        //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-2-GROUNDED.txt");
-        string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-05-GROUNDED.txt");
+        //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-3-GROUNDED.txt");
+        string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-02-GROUNDED.txt");
 
 
         if (!File.Exists(samplePath))
@@ -51,6 +51,8 @@ public class Program
         ISearchAlgorithm BFS = new BreadthFirstSearch();
         ISearchAlgorithm DFS = new DepthFirstSearch();
         ISearchAlgorithm UCS = new UniformCostSearch();
+        ISearchAlgorithm GBFS = new GreedyBestFirstSearch();
+        ISearchAlgorithm AStar = new AStarSearch();
 
 
         List<(string, string, IPlanner)> options = new() { 
@@ -69,7 +71,7 @@ public class Program
         //    ExecutePlanTest.Execute(problem, algName, planner, plannerName);
         //}
 
-        ExecuteHeuristicPlanTest.Execute(problem);
-
+        ExecuteHeuristicPlanTest.Execute(problem, AStar, "A*");
+        ExecuteHeuristicPlanTest.Execute(problem, GBFS, "GBFS");
     }
 }

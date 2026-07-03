@@ -1,6 +1,5 @@
 ﻿using AIPlanningLab.Application.Planning;
 using AIPlanningLab.Application.Search;
-using AIPlanningLab.Application.Search.Methods.Heuristic;
 using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Services;
 using AIPlanningLab.Implementations.Explicit.Heuristics;
@@ -12,10 +11,11 @@ internal class ExecuteHeuristicPlanTest
 {
     public static void Execute(
         IPlanningProblem problem,
+        ISearchAlgorithm search,
+        string algName,
         bool debug = false)
     {
         string plannerName = "Forward";
-        string algName = "A*";
 
         Console.WriteLine($"----------------------");
         Console.WriteLine($"Executing {plannerName} plan by search {algName}...");
@@ -23,7 +23,6 @@ internal class ExecuteHeuristicPlanTest
         stopwatch.Start();
 
         IPlanningOperator planningOperator = new PlanningOperator();
-        ISearchAlgorithm search = new AStarSearch();
         var heuristic = new GoalCountHeuristic();
         IPlanner planner = new ForwardPlanner(planningOperator, search, heuristic);
 

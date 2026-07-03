@@ -12,6 +12,7 @@ public class UniformCostSearch : ISearchAlgorithm
 
         SearchNode node;
         int expanded = 0;
+        int lastDepth = root.Depth;
 
         while (frontier.Count > 0)
         {
@@ -31,6 +32,11 @@ public class UniformCostSearch : ISearchAlgorithm
                     Cost = node.PathCost
                 };
             }
+            if(lastDepth < node.Depth)
+            {
+                lastDepth = node.Depth;
+                Console.WriteLine($"Depth:{lastDepth}");
+            }
             expanded++;
             foreach (var child in node.Expand()) {
                 if (!bestKnownCost.TryGetValue(child.State, out var known) || child.PathCost < known) {
@@ -45,6 +51,6 @@ public class UniformCostSearch : ISearchAlgorithm
 
     protected virtual int EvaluativeFunction(SearchNode node)
     { 
-        return node.PathCost; //+ node.Heuristic
+        return node.PathCost;
     }
 }
