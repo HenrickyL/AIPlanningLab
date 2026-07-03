@@ -6,6 +6,7 @@ using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Services;
 using AIPlanningLab.Implementations.Explicit.Parser;
 using AIPlanningLab.Infrastructure.Parser;
+using System.Numerics;
 
 namespace AIPlanningLab.CLI;
 
@@ -18,10 +19,10 @@ public class Program
         //    : Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
 
         //string problemName = "block-word-2";
-        string problemName = "rovers-2";
+        string problemName = "rovers-5";
 
         //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-2-GROUNDED.txt");
-        string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-02-GROUNDED.txt");
+        string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-05-GROUNDED.txt");
 
 
         if (!File.Exists(samplePath))
@@ -52,8 +53,6 @@ public class Program
         ISearchAlgorithm UCS = new UniformCostSearch();
 
 
-
-
         List<(string, string, IPlanner)> options = new() { 
             ("BFS", "Forward", new ForwardPlanner(planningOperator, BFS)),
             ("BFS", "Backward", new BackwardPlanner(planningOperator, BFS)),
@@ -63,12 +62,14 @@ public class Program
 
             ("UCS", "Forward", new ForwardPlanner(planningOperator, UCS)),
             ("UCS", "Backward", new BackwardPlanner(planningOperator, UCS)),
-
         };
 
-        foreach (var (algName, plannerName, planner) in options)
-        {
-            ExecutePlanTest.Execute(problem, algName, planner, plannerName);
-        }
+        //foreach (var (algName, plannerName, planner) in options)
+        //{
+        //    ExecutePlanTest.Execute(problem, algName, planner, plannerName);
+        //}
+
+        ExecuteHeuristicPlanTest.Execute(problem);
+
     }
 }
