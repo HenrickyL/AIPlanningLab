@@ -3,8 +3,19 @@ namespace AIPlanningLab.Application.Search.Methods;
 
 public class UniformCostSearch : ISearchAlgorithm
 {
+    private readonly Func<bool>? _checkLimit;
+    private readonly Action? _startSearch;
+
+    public UniformCostSearch(
+        Action? startSearch = null,
+        Func<bool>? checkLimit = null
+    ){
+        _startSearch = startSearch;
+        _checkLimit = checkLimit;
+    }
     public SearchResult Search(SearchNode root)
     {
+        _startSearch?.Invoke();
         var frontier = new PriorityQueue<SearchNode, int>();
         var bestKnownCost = new Dictionary<IState, int>();
         bestKnownCost[root.State] = root.PathCost;
@@ -12,11 +23,14 @@ public class UniformCostSearch : ISearchAlgorithm
 
         SearchNode node;
         int expanded = 0;
-        int lastDepth = root.Depth;
+        //int lastDepth = root.Depth;
 
         while (frontier.Count > 0)
         {
             node = frontier.Dequeue();
+            if (_checkLimit?.Invoke() == true) {
+                break;
+            }
             //lasy deletion
             if (node.PathCost > bestKnownCost.GetValueOrDefault(node.State, int.MaxValue))
                 continue;
@@ -32,11 +46,11 @@ public class UniformCostSearch : ISearchAlgorithm
                     Cost = node.PathCost
                 };
             }
-            if(lastDepth < node.Depth)
-            {
-                lastDepth = node.Depth;
-                Console.WriteLine($"Depth:{lastDepth}");
-            }
+            //if(lastDepth < node.Depth)
+            //{
+            //    lastDepth = node.Depth;
+            //    Console.WriteLine($"Depth:{lastDepth}");
+            //}
             expanded++;
             foreach (var child in node.Expand()) {
                 if (!bestKnownCost.TryGetValue(child.State, out var known) || child.PathCost < known) {

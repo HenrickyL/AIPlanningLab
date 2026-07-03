@@ -6,7 +6,7 @@ public class TimeLimiter : IExecutionLimiter
 {
     private readonly ITimeMetric _timer;
     private TimeSpan Limit { get; set; }
-    public int LimitInMiliseconds => Limit.Milliseconds;
+    public int LimitInMiliseconds => (int)Limit.Milliseconds;
 
 
     public TimeLimiter(ITimeMetric timer, int seconds = 60)

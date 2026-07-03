@@ -26,10 +26,7 @@ internal class ExecutePlanTest
 
         stopwatch.Stop();
         Console.WriteLine($"Time: {stopwatch.ElapsedMilliseconds} ms");
-        if (result.Success) { 
-            Console.WriteLine($"expanded Nodes: {result.ExpandedNodes}");
-            Console.WriteLine($"solutionSteps:   {result.Depth}");
-        }
+        Console.WriteLine($"Success: {result.Success}, expanded Nodes: {result.ExpandedNodes}, solutionSteps: {result.Depth}");
         if (debug) PrintResult(result);
     }
 

@@ -23,4 +23,10 @@ public sealed class PlanningOperator : IPlanningOperator
 
     public IState RelaxedRegress(IState state, IAction action)
         => state.Merge(action.Preconditions);
+
+    public bool CanRelaxedRegress(IState target, IAction action)
+    {
+        bool relevant = !action.PositiveEffects.Restrict(target).IsEmpty();
+        return relevant;
+    }
 }
