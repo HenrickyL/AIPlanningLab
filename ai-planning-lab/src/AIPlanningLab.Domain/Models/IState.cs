@@ -50,9 +50,6 @@ public interface IState
     int GetHashCode();
 
     bool Equals(object? obj);
-
-
-
 }
 
 

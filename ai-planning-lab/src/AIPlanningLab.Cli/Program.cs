@@ -17,9 +17,11 @@ public class Program
         //    ? args[0]
         //    : Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
 
-        string problemName = "block-word-1";
-        string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
-        //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-02-GROUNDED.txt");
+        //string problemName = "block-word-2";
+        string problemName = "rovers-2";
+
+        //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-2-GROUNDED.txt");
+        string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-02-GROUNDED.txt");
 
 
         if (!File.Exists(samplePath))
@@ -47,14 +49,21 @@ public class Program
         IPlanningOperator planningOperator = new PlanningOperator();
         ISearchAlgorithm BFS = new BreadthFirstSearch();
         ISearchAlgorithm DFS = new DepthFirstSearch();
-        
+        ISearchAlgorithm UCS = new UniformCostSearch();
+
+
 
 
         List<(string, string, IPlanner)> options = new() { 
             ("BFS", "Forward", new ForwardPlanner(planningOperator, BFS)),
-            ("DFS", "Forward", new ForwardPlanner(planningOperator, DFS)),
             ("BFS", "Backward", new BackwardPlanner(planningOperator, BFS)),
+
+            ("DFS", "Forward", new ForwardPlanner(planningOperator, DFS)),
             ("DFS", "Backward", new BackwardPlanner(planningOperator, DFS)),
+
+            ("UCS", "Forward", new ForwardPlanner(planningOperator, UCS)),
+            ("UCS", "Backward", new BackwardPlanner(planningOperator, UCS)),
+
         };
 
         foreach (var (algName, plannerName, planner) in options)
