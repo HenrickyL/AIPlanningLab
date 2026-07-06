@@ -63,3 +63,7 @@ dotnet add tests/AIPlanningLab.Tests reference src/AIPlanningLab.Application
 `dotnet restore`
 `dotnet build`
 `dotnet run --project src/AIPlanningLab.Cli`
+
+
+## Package BDD 
+`dotnet add src/AIPlanningLab.Implementations package DecisionDiagrams`
