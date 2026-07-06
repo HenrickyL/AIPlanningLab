@@ -3,6 +3,7 @@ using AIPlanningLab.Application.Planning;
 using AIPlanningLab.Application.Search;
 using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Services;
+using AIPlanningLab.Implementations.Explicit;
 using AIPlanningLab.Implementations.Explicit.Heuristics;
 using AIPlanningLab.Infrastructure.Execution;
 using AIPlanningLab.Infrastructure.Metrics;
@@ -26,7 +27,7 @@ internal class ExecuteRegressHeuristProgressGuidedPlanTest
         Console.WriteLine($"Executing {plannerName} plan by search {algName}...");
         Console.WriteLine($"Heuristic: {heiristicName}");
         string key = "Total.time";
-        IPlanningOperator planningOperator = new PlanningOperator();
+        IPlanningOperator planningOperator = new ExplicitPlanningOperator();
         IPrecomputedHeuristic heuristic = new BackwardDistanceHeuristic(planningOperator, timer, excLimiter);
         IPlanner planner = new RegressionComputeProgressionGuided(planningOperator, search, heuristic);
         timer.Start();

@@ -5,6 +5,7 @@ using AIPlanningLab.Application.Search.Methods.Heuristic;
 using AIPlanningLab.Cli.Tests;
 using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Services;
+using AIPlanningLab.Implementations.Explicit;
 using AIPlanningLab.Implementations.Explicit.Parser;
 using AIPlanningLab.Infrastructure.Execution;
 using AIPlanningLab.Infrastructure.Metrics;
@@ -21,10 +22,10 @@ public class Program
         //    : Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-1-GROUNDED.txt");
 
         string problemName = "block-word-3";
-        //string problemName = "rovers-5";
+        //string problemName = "rovers-4";
 
         string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "block-word", "BLOCK-WORD-3-GROUNDED.txt");
-        //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-05-GROUNDED.txt");
+        //string samplePath = Path.Combine(AppContext.BaseDirectory, "samples", "problems", "rovers", "rovers-04-GROUNDED.txt");
 
 
         if (!File.Exists(samplePath))
@@ -50,10 +51,10 @@ public class Program
         Console.WriteLine($"Meta:           {problem.Goal}");
 
         ITimeMetric timer = new StopwatchMetric();
-        IExecutionLimiter excLimiter = new TimeLimiter(timer, 1 * 60);
+        IExecutionLimiter excLimiter = new TimeLimiter(timer, 2 * 60);
 
         ITimeMetric timerForward = new StopwatchMetric();
-        IExecutionLimiter excLimiterForward = new TimeLimiter(timerForward, 2 * 60);
+        IExecutionLimiter excLimiterForward = new TimeLimiter(timerForward, 5 * 60);
 
         Action StarTime = () =>
         {
@@ -68,7 +69,7 @@ public class Program
             }
             return response;
         };
-        IPlanningOperator planningOperator = new PlanningOperator();
+        IPlanningOperator planningOperator = new ExplicitPlanningOperator();
         ISearchAlgorithm BFS = new BreadthFirstSearch();
         ISearchAlgorithm DFS = new DepthFirstSearch();
         ISearchAlgorithm UCS = new UniformCostSearch(StarTime,CheckLimit);

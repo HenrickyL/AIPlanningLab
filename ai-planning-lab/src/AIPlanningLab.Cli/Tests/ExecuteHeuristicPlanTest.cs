@@ -3,6 +3,7 @@ using AIPlanningLab.Application.Planning;
 using AIPlanningLab.Application.Search;
 using AIPlanningLab.Domain.Models;
 using AIPlanningLab.Domain.Services;
+using AIPlanningLab.Implementations.Explicit;
 using AIPlanningLab.Implementations.Explicit.Heuristics;
 using System.Diagnostics;
 
@@ -26,7 +27,7 @@ internal class ExecuteHeuristicPlanTest
         var stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        IPlanningOperator planningOperator = new PlanningOperator();
+        IPlanningOperator planningOperator = new ExplicitPlanningOperator();
         IHeuristic heuristic = new GoalCountHeuristic();
         IPlanner planner = new ForwardPlanner(planningOperator, search, heuristic);
 
