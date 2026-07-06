@@ -1,4 +1,4 @@
-﻿namespace AIPlanningLab.Implementations.Collections;
+﻿namespace AIPlanningLab.Implementations.Collections.Set;
 
 /// <summary>
 /// Conjunto booleano otimizado.
